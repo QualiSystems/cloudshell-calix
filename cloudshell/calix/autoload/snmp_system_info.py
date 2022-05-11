@@ -1,4 +1,3 @@
-#!/usr/bin/python
 import re
 
 from cloudshell.snmp.autoload.snmp_system_info import SnmpSystemInfo

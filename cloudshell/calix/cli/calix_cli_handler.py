@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 from cloudshell.cli.configurator import AbstractModeConfigurator
 from cloudshell.cli.service.cli import CLI
 from cloudshell.cli.service.cli_service_impl import CliServiceImpl
