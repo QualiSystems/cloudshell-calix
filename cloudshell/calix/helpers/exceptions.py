@@ -1,5 +1,3 @@
-
-
 class CalixBaseException(Exception):
     """Base Calix exception."""
 

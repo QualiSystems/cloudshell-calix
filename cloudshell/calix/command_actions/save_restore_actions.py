@@ -73,12 +73,13 @@ class SaveRestoreActions:
         if "error" in output.lower():
             raise CalixSaveRestoreException(f"Error during coping file: {output}")
 
-    @retry(stop_max_delay=5000,
-           wait_fixed=2000,
-           wait_random_min=2000,
-           wait_random_max=5000,
-           retry_on_result=lambda result: result is None
-           )
+    @retry(
+        stop_max_delay=5000,
+        wait_fixed=2000,
+        wait_random_min=2000,
+        wait_random_max=5000,
+        retry_on_result=lambda result: result is None,
+    )
     def check_file_transfer_status(self):
         output = CommandTemplateExecutor(
             self._cli_service, configuration.CHECK_FILE_STATUS_TAB, remove_prompt=True
