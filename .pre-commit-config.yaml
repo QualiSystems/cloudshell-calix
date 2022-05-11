@@ -1,22 +1,22 @@
 repos:
   - repo: https://github.com/asottile/pyupgrade
-    rev: v2.25.0
+    rev: v2.32.0
     hooks:
       - id: pyupgrade
         args:
           - "--py37-plus"
   - repo: https://github.com/timothycrosley/isort
-    rev: 5.9.3
+    rev: 5.10.1
     hooks:
       - id: isort
         exclude: '/mibs'
   - repo: https://github.com/python/black
-    rev: 21.8b0
+    rev: 22.3.0
     hooks:
       - id: black
         exclude: '/mibs'
-  - repo: https://gitlab.com/pycqa/flake8
-    rev: 3.9.2
+  - repo: https://github.com/pycqa/flake8
+    rev: 4.0.1
     hooks:
       - id: flake8
         additional_dependencies: [
