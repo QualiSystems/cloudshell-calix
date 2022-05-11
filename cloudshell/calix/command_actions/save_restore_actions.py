@@ -1,4 +1,3 @@
-#!/usr/bin/python
 import time
 from retry import retry
 
@@ -7,7 +6,7 @@ from cloudshell.cli.command_template.command_template_executor import (
 )
 from cloudshell.calix.command_templates import configuration
 from cloudshell.calix.helpers.exceptions import (
-    CalixSaveRestoreException, CalixSaveRestoreStatusException,
+    CalixSaveRestoreException,
 )
 from cloudshell.cli.session.session_exceptions import SessionException
 

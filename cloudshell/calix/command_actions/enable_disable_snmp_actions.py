@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 import re
 
 from cloudshell.cli.command_template.command_template_executor import (
