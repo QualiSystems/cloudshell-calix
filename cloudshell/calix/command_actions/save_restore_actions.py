@@ -1,14 +1,14 @@
 import time
+
 from retry import retry
 
 from cloudshell.cli.command_template.command_template_executor import (
     CommandTemplateExecutor,
 )
-from cloudshell.calix.command_templates import configuration
-from cloudshell.calix.helpers.exceptions import (
-    CalixSaveRestoreException,
-)
 from cloudshell.cli.session.session_exceptions import SessionException
+
+from cloudshell.calix.command_templates import configuration
+from cloudshell.calix.helpers.exceptions import CalixSaveRestoreException
 
 
 class SaveRestoreActions:
@@ -49,19 +49,17 @@ class SaveRestoreActions:
         """
         try:
             CommandTemplateExecutor(
-                    self._cli_service,
-                    configuration.RELOAD,
-                    action_map=action_map,
-                    error_map=error_map,
-                ).execute_command()
+                self._cli_service,
+                configuration.RELOAD,
+                action_map=action_map,
+                error_map=error_map,
+            ).execute_command()
             time.sleep(120)
         except SessionException:
             self._logger.info("Device rebooted, starting reconnect")
         self._cli_service.reconnect(timeout)
 
-    def load_configuration_from_remote(
-            self, folder, url, filename, vrf
-    ):
+    def load_configuration_from_remote(self, folder, url, filename, vrf):
         """Load configuration from file."""
         output = CommandTemplateExecutor(
             self._cli_service, configuration.LOAD_CONFIG_REMOTE
@@ -92,12 +90,18 @@ class SaveRestoreActions:
             self._cli_service, configuration.DELETE_LOCAL_CONFIG
         ).execute_command(filename=filename)
         time.sleep(1)
-        check_file_deleted = CommandTemplateExecutor(
-            self._cli_service, configuration.CHECK_FILE_DELETED, remove_prompt=True
-        ).execute_command(filename=filename).strip(" \t\r\n")
+        check_file_deleted = (
+            CommandTemplateExecutor(
+                self._cli_service, configuration.CHECK_FILE_DELETED, remove_prompt=True
+            )
+            .execute_command(filename=filename)
+            .strip(" \t\r\n")
+        )
         if check_file_deleted:
-            self._logger.warnning("Attention, Shell failed to remove temp config from the device. "
-                                  "Please check debug Logs for details.")
+            self._logger.warnning(
+                "Attention, Shell failed to remove temp config from the device. "
+                "Please check debug Logs for details."
+            )
 
     def load_configuration_from_local(self, file_path, conf_type, append, store):
         """Load configuration from file."""

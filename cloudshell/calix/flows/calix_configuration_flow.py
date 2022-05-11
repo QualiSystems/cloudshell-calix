@@ -1,16 +1,10 @@
 #!/usr/bin/python
 
-from cloudshell.calix.command_actions.save_restore_actions import (
-    SaveRestoreActions,
-)
-from cloudshell.calix.command_actions.system_actions import (
-    SystemActions,
-)
-from cloudshell.calix.helpers.exceptions import (
-    CalixSaveRestoreException,
-)
 from cloudshell.shell.flows.configuration.basic_flow import AbstractConfigurationFlow
 from cloudshell.shell.flows.utils.networking_utils import UrlParser
+
+from cloudshell.calix.command_actions.save_restore_actions import SaveRestoreActions
+from cloudshell.calix.helpers.exceptions import CalixSaveRestoreException
 
 
 class CalixConfigurationFlow(AbstractConfigurationFlow):
@@ -57,14 +51,13 @@ class CalixConfigurationFlow(AbstractConfigurationFlow):
             )
 
         with self._cli_handler.get_cli_service(
-                self._cli_handler.enable_mode
+            self._cli_handler.enable_mode
         ) as enable_session:
             save_action = SaveRestoreActions(enable_session, self._logger)
             filename = url.get("filename", self.DEFAULT_CONFIG_NAME)
 
             save_action.copy_configuration(
-                src_file=configuration_type,
-                dst_file=filename
+                src_file=configuration_type, dst_file=filename
             )
 
             if scheme in self.REMOTE_PROTOCOLS:
@@ -80,7 +73,7 @@ class CalixConfigurationFlow(AbstractConfigurationFlow):
                     save_action.delete_local_config_file(filename)
 
     def _restore_flow(
-            self, path, configuration_type, restore_method, vrf_management_name
+        self, path, configuration_type, restore_method, vrf_management_name
     ):
         """Execute flow which save selected file to the provided destination.
 
@@ -92,7 +85,6 @@ class CalixConfigurationFlow(AbstractConfigurationFlow):
             Possible values are startup and running
         :param vrf_management_name: Virtual Routing and Forwarding Name
         """
-
         configuration_type = configuration_type.lower()
         if configuration_type.lower() not in ["running", "startup"]:
             raise CalixSaveRestoreException(
@@ -118,7 +110,7 @@ class CalixConfigurationFlow(AbstractConfigurationFlow):
             )
 
         with self._cli_handler.get_cli_service(
-                self._cli_handler.enable_mode
+            self._cli_handler.enable_mode
         ) as enable_session:
             save_action = SaveRestoreActions(enable_session, self._logger)
             filename = url.get("filename", self.DEFAULT_CONFIG_NAME)
@@ -133,10 +125,14 @@ class CalixConfigurationFlow(AbstractConfigurationFlow):
 
             filename = url.get("filename", self.DEFAULT_CONFIG_NAME)
             if restore_method.lower() == "override" and "running" in config_type:
-                save_action.copy_configuration(self.STARTUP_CONFIG, self.BACKUP_STARTUP_CONFIG)
+                save_action.copy_configuration(
+                    self.STARTUP_CONFIG, self.BACKUP_STARTUP_CONFIG
+                )
                 save_action.copy_configuration(filename, self.STARTUP_CONFIG)
                 save_action.reload_device(600)
-                save_action.copy_configuration(self.BACKUP_STARTUP_CONFIG, self.STARTUP_CONFIG)
+                save_action.copy_configuration(
+                    self.BACKUP_STARTUP_CONFIG, self.STARTUP_CONFIG
+                )
                 save_action.delete_local_config_file(self.BACKUP_STARTUP_CONFIG)
             else:
                 save_action.copy_configuration(filename, config_type)

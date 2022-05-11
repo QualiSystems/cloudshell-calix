@@ -49,7 +49,7 @@ class ConfigCommandMode(CommandMode):
         )
 
     def enter_action_map(self):
-        return {fr"{EnableCommandMode.PROMPT}.*$": self._check_config_mode}
+        return {rf"{EnableCommandMode.PROMPT}.*$": self._check_config_mode}
 
     def enter_actions(self, cli_service):
         for cmd in self.ENTER_ACTION_COMMANDS:
@@ -81,6 +81,4 @@ class ConfigCommandMode(CommandMode):
             raise Exception(error_message)
 
 
-CommandMode.RELATIONS_DICT = {
-    EnableCommandMode: {ConfigCommandMode: {}}
-}
+CommandMode.RELATIONS_DICT = {EnableCommandMode: {ConfigCommandMode: {}}}

@@ -3,6 +3,7 @@ import re
 from cloudshell.cli.command_template.command_template_executor import (
     CommandTemplateExecutor,
 )
+
 from cloudshell.calix.command_templates import enable_disable_snmp
 from cloudshell.calix.helpers.exceptions import CalixSNMPException
 

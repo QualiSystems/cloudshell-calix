@@ -1,20 +1,10 @@
-import re
-
 from cloudshell.snmp.autoload.core.snmp_autoload_error import GeneralAutoloadError
 from cloudshell.snmp.autoload.domain.entity.snmp_entity_base import BaseEntity
 from cloudshell.snmp.autoload.domain.entity.snmp_entity_element import (
     Element,
     PortElement,
 )
-from cloudshell.snmp.autoload.domain.entity.snmp_entity_struct import (
-    Chassis,
-    Module,
-    Port,
-    PowerPort,
-)
 from cloudshell.snmp.autoload.helper.entity_quali_mib_table import EntityQualiMibTable
-from cloudshell.snmp.autoload.service.port_mapper import PortMappingService
-from cloudshell.snmp.autoload.service.port_parent_validator import PortParentValidator
 from cloudshell.snmp.autoload.snmp_entity_table import SnmpEntityTable
 
 
@@ -22,6 +12,9 @@ class CalixSnmpPhysicalStructureTable(SnmpEntityTable):
     def __init__(
         self, snmp_handler, logger, if_table, validate_module_id_by_port_name=False
     ):
+        super().__init__(
+            snmp_handler, logger, if_table, validate_module_id_by_port_name
+        )
         self._snmp = snmp_handler
         self._logger = logger
         self._if_table_service = if_table
@@ -59,9 +52,7 @@ class CalixSnmpPhysicalStructureTable(SnmpEntityTable):
             entity = self._raw_physical_indexes.get(parent_id)
             if not entity:
                 if not parent_id == "0":
-                    self._logger.debug(
-                        "Failed to autoload entity with id {}".format(parent_id)
-                    )
+                    self._logger.debug(f"Failed to autoload entity with id {parent_id}")
                     return
             if "container" in entity.entity_class.lower():
                 element.id = entity.position_id

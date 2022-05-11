@@ -1,11 +1,12 @@
 #!/usr/bin/python
 
-from cloudshell.calix.flows.calix_disable_snmp_flow import CalixDisableSnmpFlow
-from cloudshell.calix.flows.calix_enable_snmp_flow import CalixEnableSnmpFlow
 from cloudshell.snmp.snmp_configurator import (
     EnableDisableSnmpConfigurator,
     EnableDisableSnmpFlowInterface,
 )
+
+from cloudshell.calix.flows.calix_disable_snmp_flow import CalixDisableSnmpFlow
+from cloudshell.calix.flows.calix_enable_snmp_flow import CalixEnableSnmpFlow
 
 
 class CalixEnableDisableSnmpFlow(EnableDisableSnmpFlowInterface):

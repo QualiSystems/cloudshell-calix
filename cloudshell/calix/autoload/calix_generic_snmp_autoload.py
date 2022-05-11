@@ -1,9 +1,8 @@
 #!/usr/bin/python
 
-from cloudshell.calix.autoload.snmp_system_info import (
-    CalixSnmpSystemInfo,
-)
 from cloudshell.snmp.autoload.generic_snmp_autoload import GenericSNMPAutoload
+
+from cloudshell.calix.autoload.snmp_system_info import CalixSnmpSystemInfo
 
 
 class CalixGenericSNMPAutoload(GenericSNMPAutoload):

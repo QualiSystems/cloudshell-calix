@@ -7,6 +7,7 @@ from cloudshell.cli.service.command_mode_helper import CommandModeHelper
 from cloudshell.cli.service.session_pool_manager import SessionPoolManager
 from cloudshell.cli.session.ssh_session import SSHSession
 from cloudshell.cli.session.telnet_session import TelnetSession
+
 from cloudshell.calix.cli.calix_command_modes import (
     ConfigCommandMode,
     EnableCommandMode,
@@ -47,4 +48,3 @@ class CalixCliHandler(AbstractModeConfigurator):
             session=session, requested_command_mode=self.enable_mode, logger=logger
         )
         cli_service.send_command("terminal screen-length 0", EnableCommandMode.PROMPT)
-

@@ -2,10 +2,11 @@
 
 import os
 
+from cloudshell.shell.flows.autoload.basic_flow import AbstractAutoloadFlow
+
 from cloudshell.calix.autoload.calix_generic_snmp_autoload import (
     CalixGenericSNMPAutoload,
 )
-from cloudshell.shell.flows.autoload.basic_flow import AbstractAutoloadFlow
 
 
 class CalixSnmpAutoloadFlow(AbstractAutoloadFlow):
