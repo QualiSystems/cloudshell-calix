@@ -22,7 +22,7 @@ class SaveRestoreActions:
         output = CommandTemplateExecutor(
             self._cli_service, configuration.SAVE_CONFIG_REMOTE
         ).execute_command(
-            folder=folder, filename=filename, url=destination_url, vrf=vrf
+            folder=folder, filename=filename, url=destination_url, vrf=vrf or None
         )
 
         if "error" in output.lower():
@@ -67,7 +67,7 @@ class SaveRestoreActions:
             folder=folder,
             url=url,
             filename=filename,
-            vrf=vrf,
+            vrf=vrf or None,
         )
 
         if "error" in output.lower():

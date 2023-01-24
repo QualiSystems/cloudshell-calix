@@ -3,7 +3,7 @@ import re
 from cloudshell.cli.command_template.command_template import CommandTemplate
 
 SAVE_CONFIG_REMOTE = CommandTemplate(
-    "upload file {folder} from-file {filename} " "to-URI {url} [vrf {vrf}]"
+    "upload file {folder} from-file {filename} to-URI {url} [vrf {vrf}]"
 )
 
 LOAD_CONFIG_REMOTE = CommandTemplate(
