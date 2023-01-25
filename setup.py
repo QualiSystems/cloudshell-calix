@@ -17,6 +17,7 @@ setup(
     python_requires="~=3.7",
     version=read_file("version.txt"),
     package_data={"": ["*.txt"]},
-    description="<your package description>",
+    description="QualiSystems networking Calix specific package",
+    long_description="QualiSystems networking Calix specific package",
     include_package_data=True,
 )
