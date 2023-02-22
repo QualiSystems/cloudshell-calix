@@ -1,3 +1,5 @@
+import re
+
 from cloudshell.cli.configurator import AbstractModeConfigurator
 from cloudshell.cli.service.cli import CLI
 from cloudshell.cli.service.cli_service_impl import CliServiceImpl
@@ -45,4 +47,11 @@ class CalixCliHandler(AbstractModeConfigurator):
         cli_service = CliServiceImpl(
             session=session, requested_command_mode=self.enable_mode, logger=logger
         )
-        cli_service.send_command("terminal screen-length 0", EnableCommandMode.PROMPT)
+        output = cli_service.send_command(
+            "terminal screen-length 0", EnableCommandMode.PROMPT
+        )
+        if re.search(r"syntax\s+error\S*\s+expecting", output, re.IGNORECASE):
+            cli_service.reconnect(10)
+            cli_service.send_command(
+                "terminal screen-length 0", EnableCommandMode.PROMPT
+            )
