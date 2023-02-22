@@ -24,6 +24,8 @@ CHECK_FILE_DELETED = CommandTemplate(
     "show file contents config files " "| include {filename}"
 )
 
+ACCEPT_CHANGES = CommandTemplate("accept running-config")
+
 CHECK_FILE_STATUS_TAB = CommandTemplate("show file transfer-status | tab")
 CHECK_FILE_STATUS_RE = re.compile(
     r"(\d+(/\d*)*\s*(-|idle)*|LOCATION\s+STATUS|(--)+)", re.IGNORECASE

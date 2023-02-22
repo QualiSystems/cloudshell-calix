@@ -137,3 +137,5 @@ class CalixConfigurationFlow(AbstractConfigurationFlow):
             else:
                 save_action.copy_configuration(filename, config_type)
             save_action.delete_local_config_file(filename)
+            if "running" in config_type:
+                save_action.accept_changes()

@@ -38,6 +38,12 @@ class SaveRestoreActions:
             self._logger.error(f"{msg} {output}")
             raise CalixSaveRestoreException(msg)
 
+    def accept_changes(self):
+        """Accept changes."""
+        CommandTemplateExecutor(
+            self._cli_service, configuration.ACCEPT_CHANGES
+        ).execute_command()
+
     def reload_device(self, timeout, action_map=None, error_map=None):
         """Reload device.
 
