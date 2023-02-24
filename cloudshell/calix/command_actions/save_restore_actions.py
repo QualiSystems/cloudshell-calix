@@ -110,7 +110,7 @@ class SaveRestoreActions:
             .strip(" \t\r\n")
         )
         if check_file_deleted:
-            self._logger.warnning(
+            self._logger.warning(
                 "Attention, Shell failed to remove temp config from the device. "
                 "Please check debug Logs for details."
             )
