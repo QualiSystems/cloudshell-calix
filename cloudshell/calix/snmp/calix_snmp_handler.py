@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 from cloudshell.snmp.snmp_configurator import (
     EnableDisableSnmpConfigurator,
     EnableDisableSnmpFlowInterface,
@@ -36,4 +34,8 @@ class CalixSnmpHandler(EnableDisableSnmpConfigurator):
         enable_disable_snmp_flow = CalixEnableDisableSnmpFlow(
             self.cli_handler, logger, resource_config
         )
-        super().__init__(enable_disable_snmp_flow, resource_config, logger)
+        super().__init__(
+            enable_disable_snmp_flow=enable_disable_snmp_flow,
+            snmp_parameters=resource_config,
+            logger=logger,
+        )

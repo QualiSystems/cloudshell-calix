@@ -1,6 +1,6 @@
 import re
 
-from cloudshell.snmp.autoload.snmp_system_info import SnmpSystemInfo
+from cloudshell.snmp.autoload.services.system_info_table import SnmpSystemInfo
 
 
 class CalixSnmpSystemInfo(SnmpSystemInfo):

@@ -1,0 +1,370 @@
+{
+  "imports": {
+    "class": "imports",
+    "CALIX-PRODUCT-MIB": [
+      "axosModules"
+    ],
+    "SNMPv2-CONF": [
+      "NOTIFICATION-GROUP",
+      "MODULE-COMPLIANCE"
+    ],
+    "SNMPv2-SMI": [
+      "MibIdentifier",
+      "Integer32",
+      "Counter64",
+      "TimeTicks",
+      "OBJECT-IDENTITY",
+      "IpAddress",
+      "mib-2",
+      "Counter32",
+      "Gauge32",
+      "MODULE-IDENTITY",
+      "Bits",
+      "OBJECT-TYPE",
+      "Unsigned32",
+      "iso",
+      "NOTIFICATION-TYPE"
+    ],
+    "SNMPv2-TC": [
+      "DisplayString",
+      "TEXTUAL-CONVENTION",
+      "MacAddress"
+    ]
+  },
+  "axosCardModule": {
+    "name": "axosCardModule",
+    "oid": "1.3.6.1.4.1.6321.1.2.4.2.4",
+    "class": "moduleidentity",
+    "revisions": [
+      {
+        "revision": "2020-10-23 00:00",
+        "description": "Initial revision"
+      }
+    ]
+  },
+  "axosCardTable": {
+    "name": "axosCardTable",
+    "oid": "1.3.6.1.4.1.6321.1.2.4.2.4.1",
+    "nodetype": "table",
+    "class": "objecttype",
+    "maxaccess": "not-accessible",
+    "status": "current"
+  },
+  "axosCardEntry": {
+    "name": "axosCardEntry",
+    "oid": "1.3.6.1.4.1.6321.1.2.4.2.4.1.1",
+    "nodetype": "row",
+    "class": "objecttype",
+    "maxaccess": "not-accessible",
+    "indices": [
+      {
+        "module": "Axos-Card-MIB",
+        "object": "axosCardShelf",
+        "implied": 0
+      },
+      {
+        "module": "Axos-Card-MIB",
+        "object": "axosCardSlot",
+        "implied": 0
+      }
+    ],
+    "status": "current"
+  },
+  "axosCardShelf": {
+    "name": "axosCardShelf",
+    "oid": "1.3.6.1.4.1.6321.1.2.4.2.4.1.1.1",
+    "nodetype": "column",
+    "class": "objecttype",
+    "syntax": {
+      "type": "Integer32",
+      "class": "type"
+    },
+    "maxaccess": "not-accessible",
+    "status": "current"
+  },
+  "axosCardSlot": {
+    "name": "axosCardSlot",
+    "oid": "1.3.6.1.4.1.6321.1.2.4.2.4.1.1.2",
+    "nodetype": "column",
+    "class": "objecttype",
+    "syntax": {
+      "type": "Integer32",
+      "class": "type"
+    },
+    "maxaccess": "not-accessible",
+    "status": "current"
+  },
+  "axosCardAdminStatus": {
+    "name": "axosCardAdminStatus",
+    "oid": "1.3.6.1.4.1.6321.1.2.4.2.4.1.1.3",
+    "nodetype": "column",
+    "class": "objecttype",
+    "syntax": {
+      "type": "INTEGER",
+      "class": "type",
+      "constraints": {
+        "enumeration": {
+          "unknown": 0,
+          "enabled": 1,
+          "alarmsuppress": 2,
+          "disabled": 3
+        }
+      }
+    },
+    "maxaccess": "read-only",
+    "status": "current"
+  },
+  "axosCardProvType": {
+    "name": "axosCardProvType",
+    "oid": "1.3.6.1.4.1.6321.1.2.4.2.4.1.1.4",
+    "nodetype": "column",
+    "class": "objecttype",
+    "syntax": {
+      "type": "INTEGER",
+      "class": "type"
+    },
+    "maxaccess": "read-only",
+    "status": "current"
+  },
+  "axosCardActualType": {
+    "name": "axosCardActualType",
+    "oid": "1.3.6.1.4.1.6321.1.2.4.2.4.1.1.5",
+    "nodetype": "column",
+    "class": "objecttype",
+    "syntax": {
+      "type": "INTEGER",
+      "class": "type"
+    },
+    "maxaccess": "read-only",
+    "status": "current"
+  },
+  "axosCardSoftwareVersion": {
+    "name": "axosCardSoftwareVersion",
+    "oid": "1.3.6.1.4.1.6321.1.2.4.2.4.1.1.6",
+    "nodetype": "column",
+    "class": "objecttype",
+    "syntax": {
+      "type": "OCTET STRING",
+      "class": "type"
+    },
+    "maxaccess": "read-only",
+    "status": "current"
+  },
+  "axosCardSerialNumber": {
+    "name": "axosCardSerialNumber",
+    "oid": "1.3.6.1.4.1.6321.1.2.4.2.4.1.1.7",
+    "nodetype": "column",
+    "class": "objecttype",
+    "syntax": {
+      "type": "DisplayString",
+      "class": "type"
+    },
+    "maxaccess": "read-only",
+    "status": "current"
+  },
+  "axosCardCurrentPowerLevel": {
+    "name": "axosCardCurrentPowerLevel",
+    "oid": "1.3.6.1.4.1.6321.1.2.4.2.4.1.1.8",
+    "nodetype": "column",
+    "class": "objecttype",
+    "syntax": {
+      "type": "INTEGER",
+      "class": "type",
+      "constraints": {
+        "enumeration": {
+          "notSet": 0,
+          "powerLevelLow": 1,
+          "powerLevel2": 2,
+          "powerLevel3": 3,
+          "powerLevel4": 4,
+          "powerLevelFull": 5
+        }
+      }
+    },
+    "maxaccess": "read-only",
+    "status": "current"
+  },
+  "axosCardCleiCode": {
+    "name": "axosCardCleiCode",
+    "oid": "1.3.6.1.4.1.6321.1.2.4.2.4.1.1.9",
+    "nodetype": "column",
+    "class": "objecttype",
+    "syntax": {
+      "type": "OCTET STRING",
+      "class": "type"
+    },
+    "maxaccess": "read-only",
+    "status": "current"
+  },
+  "axosCardPartNumber": {
+    "name": "axosCardPartNumber",
+    "oid": "1.3.6.1.4.1.6321.1.2.4.2.4.1.1.10",
+    "nodetype": "column",
+    "class": "objecttype",
+    "syntax": {
+      "type": "OCTET STRING",
+      "class": "type"
+    },
+    "maxaccess": "read-only",
+    "status": "current"
+  },
+  "axosCardStartMacRange": {
+    "name": "axosCardStartMacRange",
+    "oid": "1.3.6.1.4.1.6321.1.2.4.2.4.1.1.11",
+    "nodetype": "column",
+    "class": "objecttype",
+    "syntax": {
+      "type": "OCTET STRING",
+      "class": "type"
+    },
+    "maxaccess": "read-only",
+    "status": "current"
+  },
+  "axosCardEndMacRange": {
+    "name": "axosCardEndMacRange",
+    "oid": "1.3.6.1.4.1.6321.1.2.4.2.4.1.1.12",
+    "nodetype": "column",
+    "class": "objecttype",
+    "syntax": {
+      "type": "OCTET STRING",
+      "class": "type"
+    },
+    "maxaccess": "read-only",
+    "status": "current"
+  },
+  "axosOltPonPortTable": {
+    "name": "axosOltPonPortTable",
+    "oid": "1.3.6.1.4.1.6321.1.2.4.2.4.2",
+    "nodetype": "table",
+    "class": "objecttype",
+    "maxaccess": "not-accessible",
+    "status": "current"
+  },
+  "axosOltPonPortEntry": {
+    "name": "axosOltPonPortEntry",
+    "oid": "1.3.6.1.4.1.6321.1.2.4.2.4.2.1",
+    "nodetype": "row",
+    "class": "objecttype",
+    "maxaccess": "not-accessible",
+    "indices": [
+      {
+        "module": "Axos-Card-MIB",
+        "object": "axosOltPonPortIfindex",
+        "implied": 0
+      }
+    ],
+    "status": "current"
+  },
+  "axosOltPonPortIfindex": {
+    "name": "axosOltPonPortIfindex",
+    "oid": "1.3.6.1.4.1.6321.1.2.4.2.4.2.1.1",
+    "nodetype": "column",
+    "class": "objecttype",
+    "syntax": {
+      "type": "Integer32",
+      "class": "type"
+    },
+    "maxaccess": "not-accessible",
+    "status": "current"
+  },
+  "axosOltPonPortName": {
+    "name": "axosOltPonPortName",
+    "oid": "1.3.6.1.4.1.6321.1.2.4.2.4.2.1.2",
+    "nodetype": "column",
+    "class": "objecttype",
+    "syntax": {
+      "type": "OCTET STRING",
+      "class": "type"
+    },
+    "maxaccess": "read-only",
+    "status": "current"
+  },
+  "axosOltPonPortStatus": {
+    "name": "axosOltPonPortStatus",
+    "oid": "1.3.6.1.4.1.6321.1.2.4.2.4.2.1.3",
+    "nodetype": "column",
+    "class": "objecttype",
+    "syntax": {
+      "type": "INTEGER",
+      "class": "type",
+      "constraints": {
+        "enumeration": {
+          "invalid": 0,
+          "linkUp": 1,
+          "linkDown": 2
+        }
+      }
+    },
+    "maxaccess": "read-only",
+    "status": "current"
+  },
+  "axosOltPonPortTemperature": {
+    "name": "axosOltPonPortTemperature",
+    "oid": "1.3.6.1.4.1.6321.1.2.4.2.4.2.1.4",
+    "nodetype": "column",
+    "class": "objecttype",
+    "syntax": {
+      "type": "Integer32",
+      "class": "type"
+    },
+    "maxaccess": "read-only",
+    "status": "current"
+  },
+  "axosOltPonPortTxBias": {
+    "name": "axosOltPonPortTxBias",
+    "oid": "1.3.6.1.4.1.6321.1.2.4.2.4.2.1.5",
+    "nodetype": "column",
+    "class": "objecttype",
+    "syntax": {
+      "type": "Integer32",
+      "class": "type"
+    },
+    "maxaccess": "read-only",
+    "status": "current"
+  },
+  "axosOltPonPortTxPower": {
+    "name": "axosOltPonPortTxPower",
+    "oid": "1.3.6.1.4.1.6321.1.2.4.2.4.2.1.6",
+    "nodetype": "column",
+    "class": "objecttype",
+    "syntax": {
+      "type": "Integer32",
+      "class": "type"
+    },
+    "maxaccess": "read-only",
+    "status": "current"
+  },
+  "axosOltPonPortRxPower": {
+    "name": "axosOltPonPortRxPower",
+    "oid": "1.3.6.1.4.1.6321.1.2.4.2.4.2.1.7",
+    "nodetype": "column",
+    "class": "objecttype",
+    "syntax": {
+      "type": "Integer32",
+      "class": "type"
+    },
+    "maxaccess": "read-only",
+    "status": "current"
+  },
+  "axosOltPonPortVoltage": {
+    "name": "axosOltPonPortVoltage",
+    "oid": "1.3.6.1.4.1.6321.1.2.4.2.4.2.1.8",
+    "nodetype": "column",
+    "class": "objecttype",
+    "syntax": {
+      "type": "Integer32",
+      "class": "type"
+    },
+    "maxaccess": "read-only",
+    "status": "current"
+  },
+  "meta": {
+    "comments": [
+      "ASN.1 source file://d:\\Data\\MIBS\\text_mibs\\calix\\Axos-Card-MIB.mib",
+      "Produced by pysmi-0.3.4 at Wed May 29 00:16:16 2024",
+      "On host ? platform ? version ? by user ?",
+      "Using Python version 3.7.9 (tags/v3.7.9:13c94747c7, Aug 17 2020, 18:01:55) [MSC v.1900 32 bit (Intel)]"
+    ],
+    "module": "Axos-Card-MIB"
+  }
+}
