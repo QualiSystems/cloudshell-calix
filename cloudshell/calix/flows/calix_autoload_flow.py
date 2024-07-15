@@ -1,7 +1,7 @@
-#!/usr/bin/python
+from __future__ import annotations
 
-import os
 import re
+from typing import TYPE_CHECKING
 
 from cloudshell.shell.flows.autoload.basic_flow import AbstractAutoloadFlow
 from cloudshell.snmp.autoload.services.port_table import PortsTable
@@ -11,27 +11,29 @@ from cloudshell.calix.autoload.calix_generic_snmp_autoload import (
     CalixGenericSNMPAutoload,
 )
 
+if TYPE_CHECKING:
+    from cloudshell.shell.core.driver_context import AutoLoadDetails
+    from cloudshell.shell.standards.networking.autoload_model import (
+        NetworkingResourceModel,
+    )
+    from cloudshell.snmp.snmp_configurator import EnableDisableSnmpConfigurator
+
 
 class CalixSnmpAutoloadFlow(AbstractAutoloadFlow):
-    MIBS_FOLDER = os.path.join(os.path.dirname(__file__), os.pardir, "mibs")
+    def __init__(self, snmp_configurator: EnableDisableSnmpConfigurator):
+        super().__init__()
+        self._snmp_configurator = snmp_configurator
 
-    def __init__(self, logger, snmp_handler):
-        super().__init__(logger)
-        self._snmp_handler = snmp_handler
-
-    def _autoload_flow(self, supported_os, resource_model):
+    def _autoload_flow(
+        self, supported_os: list[str], resource_model: NetworkingResourceModel
+    ) -> AutoLoadDetails:
+        """Autoload Flow."""
         SnmpIfEntity.PORT_IDS_PATTERN = re.compile(r"\d+(/\d+)*(\D+\d+)*$")
         PortsTable.PORT_VALID_TYPE_LIST += ["pon"]
-        with self._snmp_handler.get_service() as snmp_service:
-            snmp_service.add_mib_folder_path(
-                os.path.join(os.path.dirname(__file__), "..", "mibs")
-            )
+        with self._snmp_configurator.get_service() as snmp_service:
             snmp_autoload = CalixGenericSNMPAutoload(
                 snmp_service,
-                self._logger,
                 resource_model=resource_model,
             )
 
-            return snmp_autoload.discover(
-                supported_os,
-            )
+            return snmp_autoload.discover(supported_os)

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import logging
+import os
 from functools import lru_cache
 
 from cloudshell.snmp.autoload.constants.entity_constants import (
@@ -15,8 +17,14 @@ from cloudshell.snmp.autoload.snmp.tables.snmp_entity_table import SnmpEntityTab
 from cloudshell.calix.autoload.calix_phys_table import CalixPhysicalTable
 from cloudshell.calix.autoload.snmp_system_info import CalixSnmpSystemInfo
 
+logger = logging.getLogger(__name__)
+
 
 class CalixGenericSNMPAutoload(GenericSNMPAutoload):
+    def __init__(self, snmp_handler, resource_model):
+        super().__init__(snmp_handler, logger, resource_model)
+        self.load_mibs(os.path.abspath(os.path.join(os.path.dirname(__file__), "mibs")))
+
     @property
     @lru_cache()
     def snmp_physical_structure(self) -> SnmpEntityTable:

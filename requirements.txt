@@ -1,5 +1,10 @@
-cloudshell-shell-flows>=1.0,<2.0
-cloudshell-snmp>=5.0,<6.0
-cloudshell-snmp-autoload>=2.0,<3.0
-cloudshell-cli>=4.0,<5.0
+cloudshell-shell-core~=6.0
+cloudshell-shell-standards~=2.0
+cloudshell-shell-flows~=3.0
+cloudshell-shell-connectivity-flow~=4.0
+cloudshell-cli~=5.0
+cloudshell-snmp~=5.0
+cloudshell-snmp-autoload~=2.0
+attrs>=22,<24
 retrying~=1.3.3
+typing-extensions>=4.4
