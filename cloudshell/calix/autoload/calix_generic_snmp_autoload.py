@@ -23,7 +23,9 @@ logger = logging.getLogger(__name__)
 class CalixGenericSNMPAutoload(GenericSNMPAutoload):
     def __init__(self, snmp_handler, resource_model):
         super().__init__(snmp_handler, logger, resource_model)
-        self.load_mibs(os.path.abspath(os.path.join(os.path.dirname(__file__), "mibs")))
+        self.load_mibs(
+            os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "mibs"))
+        )
 
     @property
     @lru_cache()
