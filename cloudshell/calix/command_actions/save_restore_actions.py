@@ -1,23 +1,34 @@
-import time
+from __future__ import annotations
 
+import logging
+import time
+from typing import TYPE_CHECKING
+
+from attrs import define
 from retrying import retry
 
 from cloudshell.cli.command_template.command_template_executor import (
     CommandTemplateExecutor,
 )
 from cloudshell.cli.session.session_exceptions import SessionException
+from cloudshell.cli.types import T_ACTION_MAP, T_ERROR_MAP
 
 from cloudshell.calix.command_templates import configuration
 from cloudshell.calix.helpers.exceptions import CalixSaveRestoreException
 
+if TYPE_CHECKING:
+    from cloudshell.cli.service.cli_service import CliService
 
+logger = logging.getLogger(__name__)
+
+
+@define
 class SaveRestoreActions:
-    def __init__(self, cli_service, logger):
-        """Save and Restore actions."""
-        self._cli_service = cli_service
-        self._logger = logger
+    _cli_service: CliService
 
-    def save_configuration_to_remote(self, folder, filename, destination_url, vrf):
+    def save_configuration_to_remote(
+        self, folder: str, filename: str, destination_url: str, vrf: str
+    ) -> None:
         """Save configuration to remote location."""
         output = CommandTemplateExecutor(
             self._cli_service, configuration.SAVE_CONFIG_REMOTE
@@ -28,44 +39,44 @@ class SaveRestoreActions:
         if "error" in output.lower():
             raise CalixSaveRestoreException(f"Error during coping file: {output}")
 
-    def copy_configuration(self, src_file, dst_file):
+    def copy_configuration(self, src_file: str, dst_file: str) -> None:
         """Save configuration to remote location."""
         output = CommandTemplateExecutor(
             self._cli_service, configuration.COPY_CONFIG_LOCAL
         ).execute_command(src_file=src_file, dst_file=dst_file)
         if "copy completed" not in output.lower():
             msg = "Saving configuration to local file failed."
-            self._logger.error(f"{msg} {output}")
+            logger.error(f"{msg} {output}")
             raise CalixSaveRestoreException(msg)
 
-    def accept_changes(self):
+    def accept_changes(self) -> None:
         """Accept changes."""
         CommandTemplateExecutor(
             self._cli_service, configuration.ACCEPT_CHANGES
         ).execute_command()
 
-    def reload_device(self, timeout, action_map=None, error_map=None):
-        """Reload device.
-
-        :param timeout: session reconnect timeout
-        :param action_map: actions will be taken during executing commands,
-            i.e. handles yes/no prompts
-        :param error_map: errors will be raised during executing commands,
-            i.e. handles Invalid Commands errors
-        """
+    def reload_device(
+        self,
+        timeout: int,
+        action_map: T_ACTION_MAP = None,
+        error_map: T_ERROR_MAP = None,
+    ) -> None:
+        """Reload device."""
         try:
             CommandTemplateExecutor(
-                self._cli_service,
-                configuration.RELOAD,
+                cli_service=self._cli_service,
+                command_template=configuration.RELOAD,
                 action_map=action_map,
                 error_map=error_map,
             ).execute_command()
             time.sleep(120)
         except SessionException:
-            self._logger.info("Device rebooted, starting reconnect")
+            logger.info("Device rebooted, starting reconnect")
         self._cli_service.reconnect(timeout)
 
-    def load_configuration_from_remote(self, folder, url, filename, vrf):
+    def load_configuration_from_remote(
+        self, folder: str, url: str, filename: str, vrf: str
+    ) -> None:
         """Load configuration from file."""
         output = CommandTemplateExecutor(
             self._cli_service, configuration.LOAD_CONFIG_REMOTE
@@ -86,7 +97,7 @@ class SaveRestoreActions:
         wait_random_max=5000,
         retry_on_result=lambda result: result is None,
     )
-    def check_file_transfer_status(self):
+    def check_file_transfer_status(self) -> str:
         output = CommandTemplateExecutor(
             self._cli_service, configuration.CHECK_FILE_STATUS_TAB, remove_prompt=True
         ).execute_command()
@@ -97,7 +108,8 @@ class SaveRestoreActions:
             error = status.strip(" \t\r\n")
             raise CalixSaveRestoreException(f"Error during coping file: {error}")
 
-    def delete_local_config_file(self, filename):
+    def delete_local_config_file(self, filename: str) -> None:
+        """Remove configuration file from local storage."""
         CommandTemplateExecutor(
             self._cli_service, configuration.DELETE_LOCAL_CONFIG
         ).execute_command(filename=filename)
@@ -110,7 +122,7 @@ class SaveRestoreActions:
             .strip(" \t\r\n")
         )
         if check_file_deleted:
-            self._logger.warnning(
+            logger.warning(
                 "Attention, Shell failed to remove temp config from the device. "
                 "Please check debug Logs for details."
             )
@@ -119,20 +131,26 @@ class SaveRestoreActions:
         """Load configuration from file."""
         if store and append:
             output = CommandTemplateExecutor(
-                self._cli_service, configuration.LOAD_CONFIG_LOCAL
+                self._cli_service,
+                configuration.LOAD_CONFIG_LOCAL,
+                # TODO There is no such configuration template
             ).execute_command(
                 file_path=file_path, config=conf_type, append="", store=""
             )
         elif store and not append:
             output = CommandTemplateExecutor(
-                self._cli_service, configuration.LOAD_CONFIG_LOCAL
+                self._cli_service,
+                configuration.LOAD_CONFIG_LOCAL,
+                # TODO There is no such configuration template
             ).execute_command(file_path=file_path, config=conf_type, store="")
         else:
             output = CommandTemplateExecutor(
-                self._cli_service, configuration.LOAD_CONFIG_LOCAL
+                self._cli_service,
+                configuration.LOAD_CONFIG_LOCAL,
+                # TODO There is no such configuration template
             ).execute_command(file_path=file_path, config=conf_type)
 
         if "% " in output:
             msg = f"Loading configuration from local file {file_path} failed."
-            self._logger.error(f"{msg} {output}")
+            logger.error(f"{msg} {output}")
             raise CalixSaveRestoreException(msg)

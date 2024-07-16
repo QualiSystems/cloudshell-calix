@@ -1,7 +1,13 @@
+from __future__ import annotations
+
 import re
 import time
+from typing import TYPE_CHECKING
 
 from cloudshell.cli.service.command_mode import CommandMode
+
+if TYPE_CHECKING:
+    from cloudshell.cli.service.auth_model import Auth
 
 
 class EnableCommandMode(CommandMode):
@@ -9,10 +15,9 @@ class EnableCommandMode(CommandMode):
     ENTER_COMMAND = ""
     EXIT_COMMAND = ""
 
-    def __init__(self, resource_config):
+    def __init__(self, auth: Auth):
         """Initialize Enable command mode."""
-        self.resource_config = resource_config
-
+        self._auth = auth
         CommandMode.__init__(
             self,
             prompt=EnableCommandMode.PROMPT,
@@ -23,7 +28,7 @@ class EnableCommandMode(CommandMode):
     def enter_action_map(self):
         return {
             "[Pp]assword": lambda session, logger: session.send_line(
-                self.resource_config.enable_password, logger
+                self._auth.enable_password or self._auth.password, logger
             )
         }
 
@@ -36,10 +41,9 @@ class ConfigCommandMode(CommandMode):
     EXIT_COMMAND = "end"
     ENTER_ACTION_COMMANDS = []
 
-    def __init__(self, resource_config):
-        """Initialize Config command mode."""
-        self.resource_config = resource_config
-
+    def __init__(self, auth: Auth):
+        """Initialize Configuration command mode."""
+        self._auth = auth
         CommandMode.__init__(
             self,
             prompt=ConfigCommandMode.PROMPT,
@@ -59,9 +63,7 @@ class ConfigCommandMode(CommandMode):
         error_message = "Failed to enter config mode, please check logs, for details"
         output = session.hardware_expect(
             "",
-            expected_string="{}|{}".format(
-                EnableCommandMode.PROMPT, ConfigCommandMode.PROMPT
-            ),
+            expected_string=f"{EnableCommandMode.PROMPT}|{ConfigCommandMode.PROMPT}",
             logger=logger,
         )
         retry = 0
@@ -70,9 +72,7 @@ class ConfigCommandMode(CommandMode):
         ) and retry < self.MAX_ENTER_CONFIG_MODE_RETRIES:
             output = session.hardware_expect(
                 ConfigCommandMode.ENTER_COMMAND,
-                expected_string="{}|{}".format(
-                    EnableCommandMode.PROMPT, ConfigCommandMode.PROMPT
-                ),
+                expected_string=f"{EnableCommandMode.PROMPT}|{ConfigCommandMode.PROMPT}",  # noqa E501
                 logger=logger,
             )
             time.sleep(self.ENTER_CONFIG_RETRY_TIMEOUT)

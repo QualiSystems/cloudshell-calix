@@ -14,7 +14,7 @@ setup(
     packages=find_packages(),
     install_requires=read_file("requirements.txt"),
     tests_require=read_file("test_requirements.txt"),
-    python_requires="~=3.7",
+    python_requires="~=3.9",
     version=read_file("version.txt"),
     package_data={"": ["*.txt"]},
     description="QualiSystems networking Calix specific package",

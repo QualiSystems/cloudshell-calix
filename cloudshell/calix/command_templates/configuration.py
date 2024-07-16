@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import re
 
 from cloudshell.cli.command_template.command_template import CommandTemplate

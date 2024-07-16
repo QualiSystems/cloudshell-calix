@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+
 class CalixBaseException(Exception):
     """Base Calix exception."""
 
