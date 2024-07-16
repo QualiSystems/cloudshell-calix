@@ -132,17 +132,22 @@ class SaveRestoreActions:
         if store and append:
             output = CommandTemplateExecutor(
                 self._cli_service,
-                configuration.LOAD_CONFIG_LOCAL,  # TODO There is no such configuration template
+                configuration.LOAD_CONFIG_LOCAL,
+                # TODO There is no such configuration template
             ).execute_command(
                 file_path=file_path, config=conf_type, append="", store=""
             )
         elif store and not append:
             output = CommandTemplateExecutor(
-                self._cli_service, configuration.LOAD_CONFIG_LOCAL  # TODO There is no such configuration template
+                self._cli_service,
+                configuration.LOAD_CONFIG_LOCAL,
+                # TODO There is no such configuration template
             ).execute_command(file_path=file_path, config=conf_type, store="")
         else:
             output = CommandTemplateExecutor(
-                self._cli_service, configuration.LOAD_CONFIG_LOCAL  # TODO There is no such configuration template
+                self._cli_service,
+                configuration.LOAD_CONFIG_LOCAL,
+                # TODO There is no such configuration template
             ).execute_command(file_path=file_path, config=conf_type)
 
         if "% " in output:
